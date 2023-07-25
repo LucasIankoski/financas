@@ -4,12 +4,14 @@ import enums.StatusLancamento;
 import enums.TipoLancamento;
 import jakarta.persistence.*;
 import jdk.jshell.Snippet;
+import lombok.Data;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
+@Data
 @Table(name = "lancamento", schema = "mfinancas")
 public class Lancamento {
 
