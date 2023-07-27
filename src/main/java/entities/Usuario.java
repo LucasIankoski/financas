@@ -8,6 +8,7 @@ import java.util.Objects;
 @Entity
 @Data
 @Table(name = "usuario", schema = "mfinancas")
+@Builder
 public class Usuario {
 
     @Id
