@@ -1,4 +1,4 @@
-package exceptions;
+package com.iankoski.financas.exceptions;
 
 public class AutenticacaoException extends RuntimeException {
 

@@ -1,4 +1,4 @@
-package entities;
+package com.iankoski.financas.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

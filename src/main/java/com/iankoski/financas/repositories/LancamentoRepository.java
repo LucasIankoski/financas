@@ -1,6 +1,6 @@
-package repositories;
+package com.iankoski.financas.repositories;
 
-import entities.Lancamento;
+import com.iankoski.financas.entities.Lancamento;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {

@@ -1,9 +1,8 @@
-package entities;
+package com.iankoski.financas.entities;
 
-import enums.StatusLancamento;
-import enums.TipoLancamento;
+import com.iankoski.financas.enums.StatusLancamento;
+import com.iankoski.financas.enums.TipoLancamento;
 import jakarta.persistence.*;
-import jdk.jshell.Snippet;
 import lombok.Data;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 

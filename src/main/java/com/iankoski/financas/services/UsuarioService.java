@@ -1,11 +1,12 @@
-package services;
+package com.iankoski.financas.services;
 
-import entities.Usuario;
-import exceptions.AutenticacaoException;
+import com.iankoski.financas.entities.Usuario;
+import com.iankoski.financas.exceptions.AutenticacaoException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repositories.UsuarioRepository;
-import exceptions.RegrasException;
+import com.iankoski.financas.repositories.UsuarioRepository;
+import com.iankoski.financas.exceptions.RegrasException;
 
 import java.util.Optional;
 
@@ -32,7 +33,8 @@ public class UsuarioService {
         return usuario.get();
     }
 
-    public Usuario salvar(Usuario usuario){
+    @Transactional
+    public Usuario salvarUsuario(Usuario usuario){
         validarEmail(usuario.getEmail());
         return repository.save(usuario);
     }

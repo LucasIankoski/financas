@@ -1,6 +1,6 @@
-package repositories;
+package com.iankoski.financas.repositories;
 
-import entities.Usuario;
+import com.iankoski.financas.entities.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

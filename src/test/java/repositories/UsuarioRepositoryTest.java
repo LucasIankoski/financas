@@ -1,6 +1,7 @@
 package repositories;
 
-import entities.Usuario;
+import com.iankoski.financas.entities.Usuario;
+import com.iankoski.financas.repositories.UsuarioRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
