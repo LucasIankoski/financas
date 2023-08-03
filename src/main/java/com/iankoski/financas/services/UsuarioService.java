@@ -22,14 +22,9 @@ public class UsuarioService {
 
     public Usuario autenticar(String email, String senha){
         Optional<Usuario> usuario = repository.findByEmail(email);
-        if(!usuario.isPresent()){
-            throw new AutenticacaoException("E-mail inválido");
+        if(!usuario.isPresent() || !usuario.get().getSenha().equals(senha)){
+            throw new AutenticacaoException("E-mail ou senha inválida");
         }
-
-        if(!usuario.get().getSenha().equals(senha)){
-            throw new AutenticacaoException("Senha inválida");
-        }
-
         return usuario.get();
     }
 
