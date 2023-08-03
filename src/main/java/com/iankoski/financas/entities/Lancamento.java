@@ -3,7 +3,7 @@ package com.iankoski.financas.entities;
 import com.iankoski.financas.enums.StatusLancamento;
 import com.iankoski.financas.enums.TipoLancamento;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import java.math.BigDecimal;
@@ -11,7 +11,10 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@Table(name = "lancamento", schema = "mfinancas")
+@Table(name = "lancamento")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Lancamento {
 
     @Id

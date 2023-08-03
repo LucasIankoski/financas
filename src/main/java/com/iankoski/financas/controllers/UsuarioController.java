@@ -1,4 +1,4 @@
-package com.iankoski.financas.controller;
+package com.iankoski.financas.controllers;
 
 import com.iankoski.financas.dto.UsuarioDTO;
 import com.iankoski.financas.entities.Usuario;
