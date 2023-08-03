@@ -2,6 +2,7 @@ package com.iankoski.financas.controller;
 
 import com.iankoski.financas.dto.UsuarioDTO;
 import com.iankoski.financas.entities.Usuario;
+import com.iankoski.financas.exceptions.AutenticacaoException;
 import com.iankoski.financas.exceptions.RegrasException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,5 +34,15 @@ public class UsuarioController {
                 return ResponseEntity.badRequest().body(e.getMessage());
         }
 
+    }
+
+    @PostMapping("/autenticacao")
+    public ResponseEntity autenticar(@RequestBody UsuarioDTO usuarioDTO){
+        try {
+            Usuario autenticacao = service.autenticar(usuarioDTO.getEmail(), usuarioDTO.getSenha());
+            return ResponseEntity.ok(autenticacao);
+        } catch (AutenticacaoException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
