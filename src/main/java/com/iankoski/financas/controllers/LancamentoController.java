@@ -50,6 +50,7 @@ public class LancamentoController {
 
     }
 
+    @DeleteMapping("{id}")
     public ResponseEntity deletar(@PathVariable("id") Long id){
         return service.encontrarPorId(id).map(entidade -> {
             service.deletar(entidade);
