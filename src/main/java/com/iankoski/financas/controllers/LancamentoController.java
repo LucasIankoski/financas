@@ -11,10 +11,7 @@ import com.iankoski.financas.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/lancamento")
@@ -35,6 +32,30 @@ public class LancamentoController {
            return ResponseEntity.badRequest().body(e.getMessage());
        }
 
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody LancamentoDTO dto){
+            return service.encontrarPorId(id).map(entidade -> {
+                try{
+                    Lancamento lancamento = converterDTOparaEntidade(dto);
+                    lancamento.setId(entidade.getId());
+                    service.atualizar(lancamento);
+                    return ResponseEntity.ok(lancamento);
+                } catch (RegrasException e){
+                    return ResponseEntity.badRequest().body(e.getMessage());
+                }
+            }).orElseGet(() ->
+                    new ResponseEntity("Lançamento não encontrado.", HttpStatus.BAD_REQUEST));
+
+    }
+
+    public ResponseEntity deletar(@PathVariable("id") Long id){
+        return service.encontrarPorId(id).map(entidade -> {
+            service.deletar(entidade);
+            return new ResponseEntity("Lançamento deletado com sucesso.", HttpStatus.NO_CONTENT);
+        }).orElseGet(() ->
+                new ResponseEntity("Lançamento não encontrado.", HttpStatus.BAD_REQUEST));
     }
 
     public Lancamento converterDTOparaEntidade(LancamentoDTO dto){
