@@ -13,6 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/lancamento")
 public class LancamentoController {
@@ -67,12 +71,44 @@ public class LancamentoController {
         lancamento.setAno(dto.getAno());
         lancamento.setValor(dto.getValor());
 
-        Usuario usuario = usuarioService.encontrarPorId(dto.getId()).orElseThrow(() -> new RegrasException("Usuário não encontrado para o ID informado."));
+        Usuario usuario = usuarioService.encontrarPorId(dto.getUsuario()).orElseThrow(() -> new RegrasException("Usuário não encontrado para o ID informado."));
 
         lancamento.setUsuario(usuario);
-        lancamento.setTipoLancamento(TipoLancamento.valueOf(dto.getTipoLancamento()));
-        lancamento.setStatus(StatusLancamento.valueOf(dto.getStatus()));
+        if(dto.getTipoLancamento() != null) {
+            lancamento.setTipoLancamento(TipoLancamento.valueOf(dto.getTipoLancamento()));
+        }
+
+        if (dto.getStatus() != null) {
+            lancamento.setStatus(StatusLancamento.valueOf(dto.getStatus()));
+        }
 
         return lancamento;
+    }
+    @GetMapping
+    public ResponseEntity filtrar(@RequestParam(value = "descricao", required = false) String descricao,
+                                  @RequestParam(value = "mes", required = false) Integer mes,
+                                  @RequestParam(value = "ano", required = false) Integer ano,
+                                  @RequestParam(value = "usuario", required = true) Long idUsuario){
+
+        Optional<Usuario> usuario = usuarioService.encontrarPorId(idUsuario);
+        Lancamento lancamentoFiltrado = new Lancamento();
+        lancamentoFiltrado.setDescricao(descricao);
+        lancamentoFiltrado.setMes(mes);
+        lancamentoFiltrado.setAno(ano);
+
+        if(!usuario.isPresent()){
+            return ResponseEntity.badRequest().body("Não foi possível encontrar lançamentos: Usuário inválido.");
+        } else {
+            lancamentoFiltrado.setUsuario(usuario.get());
+        }
+
+        List<Lancamento> lancamentos = service.filtrar(lancamentoFiltrado);
+        return ResponseEntity.ok(lancamentos);
+
+
+
+
+
+
     }
 }
