@@ -1,6 +1,7 @@
 package com.iankoski.financas.controllers;
 
 import com.iankoski.financas.dto.LancamentoDTO;
+import com.iankoski.financas.dto.StatusDTO;
 import com.iankoski.financas.entities.Lancamento;
 import com.iankoski.financas.entities.Usuario;
 import com.iankoski.financas.enums.StatusLancamento;
@@ -51,6 +52,25 @@ public class LancamentoController {
                 }
             }).orElseGet(() ->
                     new ResponseEntity("Lançamento não encontrado.", HttpStatus.BAD_REQUEST));
+
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizarStatus(@PathVariable("id") Long id, @RequestBody StatusDTO dto){
+        return service.encontrarPorId(id).map(entidade -> {
+            StatusLancamento statusLancamento = StatusLancamento.valueOf(dto.getStatus());
+            if(statusLancamento == null){
+                return ResponseEntity.badRequest().body("Não foi possível atualizar o status. Status inválido.");
+            }
+            try {
+                entidade.setStatus(statusLancamento);
+                service.atualizar(entidade);
+                return ResponseEntity.ok(entidade);
+            } catch (RegrasException e){
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+        }).orElseGet(() ->
+                new ResponseEntity("Lançamento não encontrado.", HttpStatus.BAD_REQUEST));
 
     }
 
