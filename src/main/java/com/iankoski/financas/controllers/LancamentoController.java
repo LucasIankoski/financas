@@ -55,7 +55,7 @@ public class LancamentoController {
 
     }
 
-    @PutMapping("{id}")
+    @PutMapping("status/{id}")
     public ResponseEntity atualizarStatus(@PathVariable("id") Long id, @RequestBody StatusDTO dto){
         return service.encontrarPorId(id).map(entidade -> {
             StatusLancamento statusLancamento = StatusLancamento.valueOf(dto.getStatus());
