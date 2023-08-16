@@ -4,14 +4,15 @@ import com.iankoski.financas.dto.UsuarioDTO;
 import com.iankoski.financas.entities.Usuario;
 import com.iankoski.financas.exceptions.AutenticacaoException;
 import com.iankoski.financas.exceptions.RegrasException;
+import com.iankoski.financas.services.LancamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.iankoski.financas.services.UsuarioService;
+
+import java.math.BigDecimal;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/usuarios")
@@ -19,6 +20,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService service;
+
+    @Autowired
+    private LancamentoService lancamentoService;
 
     @PostMapping
     public ResponseEntity salvar(@RequestBody UsuarioDTO usuarioDTO){
@@ -44,5 +48,17 @@ public class UsuarioController {
         } catch (AutenticacaoException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/saldo/{id}")
+    public ResponseEntity consultarSaldo(Long id){
+        Optional<Usuario> usuario = service.encontrarPorId(id);
+
+        if(!usuario.isPresent()){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        BigDecimal saldo = lancamentoService.consultarSaldoPorUsuario(id);
+        return ResponseEntity.ok(saldo);
     }
 }

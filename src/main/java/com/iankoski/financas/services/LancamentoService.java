@@ -2,6 +2,7 @@ package com.iankoski.financas.services;
 
 import com.iankoski.financas.entities.Lancamento;
 import com.iankoski.financas.enums.StatusLancamento;
+import com.iankoski.financas.enums.TipoLancamento;
 import com.iankoski.financas.exceptions.RegrasException;
 import com.iankoski.financas.repositories.LancamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,5 +83,21 @@ public class LancamentoService {
 
     public Optional<Lancamento> encontrarPorId(Long id){
         return repository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public BigDecimal consultarSaldoPorUsuario(Long id){
+        BigDecimal receita = repository.consultarSaldoPorUsuarioETipoLancamento(id, TipoLancamento.RECEITA.name());
+        BigDecimal despesa = repository.consultarSaldoPorUsuarioETipoLancamento(id, TipoLancamento.DESPESA.name());
+
+        if(receita == null){
+            receita = BigDecimal.ZERO;
+        }
+
+        if(despesa == null){
+            despesa = BigDecimal.ZERO;
+        }
+        BigDecimal saldo = receita.subtract(despesa);
+        return saldo;
     }
 }
