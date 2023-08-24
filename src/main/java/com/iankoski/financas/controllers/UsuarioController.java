@@ -50,8 +50,10 @@ public class UsuarioController {
         }
     }
 
+
+
     @GetMapping("/saldo/{id}")
-    public ResponseEntity consultarSaldo(Long id){
+    public ResponseEntity consultarSaldo(@PathVariable("id") Long id){
         Optional<Usuario> usuario = service.encontrarPorId(id);
 
         if(!usuario.isPresent()){

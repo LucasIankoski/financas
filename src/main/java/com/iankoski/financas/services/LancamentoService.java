@@ -85,6 +85,8 @@ public class LancamentoService {
         return repository.findById(id);
     }
 
+
+
     @Transactional(readOnly = true)
     public BigDecimal consultarSaldoPorUsuario(Long id){
         BigDecimal receita = repository.consultarSaldoPorUsuarioETipoLancamento(id, TipoLancamento.RECEITA.name());
@@ -97,7 +99,7 @@ public class LancamentoService {
         if(despesa == null){
             despesa = BigDecimal.ZERO;
         }
-        BigDecimal saldo = receita.subtract(despesa);
-        return saldo;
+
+        return receita.subtract(despesa);
     }
 }
