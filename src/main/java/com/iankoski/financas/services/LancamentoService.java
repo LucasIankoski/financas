@@ -89,8 +89,8 @@ public class LancamentoService {
 
     @Transactional(readOnly = true)
     public BigDecimal consultarSaldoPorUsuario(Long id){
-        BigDecimal receita = repository.consultarSaldoPorUsuarioETipoLancamento(id, TipoLancamento.RECEITA.name());
-        BigDecimal despesa = repository.consultarSaldoPorUsuarioETipoLancamento(id, TipoLancamento.DESPESA.name());
+        BigDecimal receita = repository.consultarSaldoPorUsuarioETipoLancamento(id, TipoLancamento.RECEITA);
+        BigDecimal despesa = repository.consultarSaldoPorUsuarioETipoLancamento(id, TipoLancamento.DESPESA);
 
         if(receita == null){
             receita = BigDecimal.ZERO;
